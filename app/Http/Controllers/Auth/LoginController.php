@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,34 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    public function loginForm()
+    {
+        $user = Auth::user();
+        if ($user && $user->hasRole('admin')) {
+            return redirect()->route('task.index');
+        }
+        if ($user && $user->hasRole('manager')) {
+            return redirect()->route('manager-task.index');
+        }
+        if ($user && $user->hasRole('user')) {
+            return redirect()->route('user-task.index');
+        }
+        return view('auth.login');
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        if ($user->hasRole('admin')) {
+            return redirect()->route('task.index');
+        } elseif ($user->hasRole('manager')) {
+            return redirect()->route('manager-task.index');
+        } elseif ($user->hasRole('user')) {
+            return redirect()->route('user-task.index');
+        } else {
+            Auth::logout();
+            return view('auth.login');
+        }
     }
 }

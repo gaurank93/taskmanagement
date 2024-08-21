@@ -16,18 +16,11 @@ class RoleSeeder extends Seeder
     {
         // Create roles
         $adminRole = Role::create(['name' => 'admin']);
-        $managerRole = Role::create(['name' => 'manager']);
-        $userRole = Role::create(['name' => 'user']);
-
+        Role::create(['name' => 'manager']);
+        Role::create(['name' => 'user']);
         // Create permissions
-        Permission::create(['name' => 'create tasks']);
-        Permission::create(['name' => 'edit tasks']);
         Permission::create(['name' => 'delete tasks']);
-        Permission::create(['name' => 'view tasks']);
-
         // Assign permissions to roles
         $adminRole->givePermissionTo(Permission::all());
-        $managerRole->givePermissionTo(['create tasks', 'edit tasks', 'view tasks']);
-        $userRole->givePermissionTo('view tasks');
     }
 }
