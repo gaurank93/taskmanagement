@@ -29,15 +29,23 @@ git clone https://github.com/gaurank93/taskmanagement.git
 ```bash
 composer install
 ```
-### 3. Run migrations and seed the database
+### 3.Set up environment variables
+```bash
+cp .env.example .env
+```
+### 4.Generate application key
+```bash
+php artisan key:generate
+```
+### 5. Run migrations and seed the database
 ```bash
 php artisan migrate --seed
 ```
-### 4. Run migrations and seed the database
+### 6. Run migrations and seed the database
 ```bash
 php artisan serve
 ```
-### 5.  Access the application
+### 7.  Access the application
 Open your browser and go to http://localhost:8000.
 
 Document Upload: Users can upload documents related to tasks. Ensure that your storage is correctly linked using:
